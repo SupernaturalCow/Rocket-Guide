@@ -61,11 +61,10 @@ public class Player : MonoBehaviour
 
         switch (collision.gameObject.tag)
         {
-            case "Friendly":
-                // Do nothing
-                break;
             case "Finish":
                 StartSuccessSequence();
+                break;
+            case "Friendly":
                 break;
             default:
                 StartFailSequence();
@@ -100,7 +99,14 @@ public class Player : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        SceneManager.LoadScene(1);
+        var sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        var sceneCount = SceneManager.sceneCountInBuildSettings;
+        print(sceneCount);
+        if (sceneIndex < sceneCount - 1)
+        {
+            SceneManager.LoadScene(sceneIndex + 1);
+        }
+        else SceneManager.LoadScene(0);
     }
 
     private void RespondToRotateInput()
